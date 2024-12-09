@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-primary text-text;
+}
+
+@layer components {
+  .typing-container {
+    @apply max-w-3xl mx-auto px-4 py-8 font-mono;
+  }
+  
+  .word-container {
+    @apply bg-secondary/30 p-8 rounded-lg mb-6 text-3xl leading-relaxed min-h-[160px];
+  }
+  
+  .typing-input {
+    @apply w-full bg-secondary/50 text-text p-4 rounded-lg outline-none border-2 border-transparent focus:border-accent/30 transition-colors;
+  }
+  
+  .word-count-btn {
+    @apply px-4 py-2 rounded-lg transition-colors hover:bg-secondary/50;
+  }
+  
+  .restart-btn {
+    @apply px-6 py-2 bg-accent/20 text-accent rounded-lg hover:bg-accent/30 transition-colors mt-4;
+  }
+}
+
+.caret {
+  @apply inline-block w-[4px] h-[0.9em] bg-accent;
+  animation: blink 1s step-end infinite;
+  margin: 0 -1px;
+  position: relative;
+  top: 3px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
