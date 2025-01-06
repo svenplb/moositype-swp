@@ -78,3 +78,17 @@ export const getTestResults = async () => {
   console.log("API Response data:", data);
   return data;
 };
+
+export const getLeaderboard = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch("http://localhost:3000/api/leaderboard", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to fetch leaderboard");
+  return response.json();
+};

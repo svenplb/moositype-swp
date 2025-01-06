@@ -57,6 +57,51 @@ app.get("/api/results", auth, async (req, res) => {
   }
 });
 
+app.get("/api/leaderboard", async (req, res) => {
+  try {
+    const leaderboard = await TestResult.aggregate([
+      {
+        $group: {
+          _id: {
+            userId: "$userId",
+            wordCount: "$wordCount"
+          },
+          bestWPM: { $max: "$wpm" },
+          accuracy: { $first: "$accuracy" },
+          timestamp: { $first: "$timestamp" }
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id.userId",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      {
+        $unwind: "$user"
+      },
+      {
+        $project: {
+          wordCount: "$_id.wordCount",
+          username: "$user.username",
+          wpm: "$bestWPM",
+          accuracy: "$accuracy",
+          timestamp: "$timestamp"
+        }
+      },
+      {
+        $sort: { wpm: -1 }
+      }
+    ]);
+
+    res.json(leaderboard);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

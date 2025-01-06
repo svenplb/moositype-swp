@@ -11,6 +11,12 @@ export const Navbar = () => {
           moositype
         </Link>
         <div className="flex items-center space-x-6 font-mono">
+          <Link
+            to="/leaderboard"
+            className="text-text-darker hover:text-text transition-colors"
+          >
+            leaderboard
+          </Link>
           {isAuthenticated ? (
             <>
               <Link
